@@ -20,9 +20,9 @@ const messageBodySchema = z.object({
 router.get("/messages", async (request: Request, response: Response, next: NextFunction) => {
     try {
         const allMessages = await getAllMessages()
-        response.json(allMessages)
+        return response.json(allMessages)
     } catch (exception: any) {
-        response.status(500).json({ message: exception.message })
+        return response.status(500).json({ message: exception.message })
     }
 })
 
