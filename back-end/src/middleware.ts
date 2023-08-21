@@ -21,11 +21,10 @@ export const isAuthenticated = (request: Request, response: Response, next: Next
     } catch (exception: any) {
         response.status(401)
         if (exception.name === "TokenExpiredError") {
-            response.json({ message: "Access expired" })
+            return response.json({ message: "Access expired" })
         }
 
-        response.json({ message: "Unauthorized" })
-        return
+        return response.json({ message: "Unauthorized" })
     }
 
     return next()
