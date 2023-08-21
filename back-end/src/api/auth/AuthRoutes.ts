@@ -120,6 +120,7 @@ router.post("/refreshToken", async (request: Request, response: Response, next: 
         const payload = jwt.verify(refreshToken, JWT_REFRESH_SECRET) as JwtPayload
         const savedRefreshToken = await findRefreshTokenById(payload.jti as string)
 
+        console.log(savedRefreshToken)
         if (!savedRefreshToken || savedRefreshToken.revoked) {
             response.status(401)
             throw new Error("Unauthorized")
@@ -141,6 +142,7 @@ router.post("/refreshToken", async (request: Request, response: Response, next: 
         const jti = uuidv4()
         const { acessToken, refreshToken: newRefreshToken } = generateTokens(user, jti)
 
+        console.log("new token: ", newRefreshToken)
         return response.json({
             acessToken,
             refreshToken: newRefreshToken

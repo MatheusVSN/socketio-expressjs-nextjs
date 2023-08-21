@@ -8,7 +8,7 @@ const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET as string
 
 export const generateAcessToken = (user: User) => {
     return jwt.sign({ userId: user.id }, JWT_ACESS_SECRET, {
-        expiresIn: "5m"
+        expiresIn: "1d"
     })
 }
 
@@ -17,7 +17,7 @@ export const generateRefreshToken = (user: User, jti: string) => {
         userId: user.id,
         jti
     }, JWT_REFRESH_SECRET, {
-        expiresIn: "8h"
+        expiresIn: "7d"
     })
 }
 

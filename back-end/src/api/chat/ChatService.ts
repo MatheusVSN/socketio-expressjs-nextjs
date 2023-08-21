@@ -24,6 +24,7 @@ export const getAllMessages = async () => {
 
     const finalMessageList = allMessages.map((message) => messageModelTODTO(message))
 
+    console.log("final", finalMessageList)
     return finalMessageList
 }
 
@@ -37,7 +38,7 @@ export const createNewMessage = async (userId: string, message: string) => {
             user: true
         }
     })
-    
+
     const messageDTO = messageModelTODTO(createdMessage)
     return messageDTO
 }

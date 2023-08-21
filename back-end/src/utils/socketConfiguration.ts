@@ -18,7 +18,9 @@ export const configureSocket = (io: Server) => {
     })
 
     io.use((socket, next) => {
+        console.log("attempt to connect?")
         const authorization = socket.handshake.headers.authorization
+        console.log(authorization)
 
         if (!authorization) next(new Error("Unauthorized"))
 
