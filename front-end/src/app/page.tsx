@@ -1,11 +1,10 @@
 import LoginComponent from "@/components/Login"
 import SignupComponent from "@/components/Signup"
-import ThemeToggle from "@/components/ThemeToggle"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 export default function Home() {
   return (
-    <main className="grid place-content-center h-screen gap-4">
+    <main className="grid place-content-center gap-4 mt-16">
       <Tabs defaultValue="login" className="w-[350px] max-[350px]:w-screen">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="login">Login</TabsTrigger>

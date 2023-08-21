@@ -24,6 +24,10 @@ import { Button } from "./ui/button"
 import { fetchWrapper } from "@/lib/fetch"
 import { AuthenticationResponse } from "@/types"
 import { useToast } from "./ui/use-toast"
+import { useRouter } from "next/navigation"
+import { useCurrentUser } from "@/hooks/useCurrentUser"
+import { useState } from "react"
+import { Loader2 } from "lucide-react"
 
 const username = z.string().min(3, {
   message: "Username must be at least 3 characters long",
@@ -39,7 +43,10 @@ const loginSchema = z.object({
 })
 
 export default function LoginComponent() {
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const router = useRouter()
   const { toast } = useToast()
+  const { getUserInformation } = useCurrentUser()
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -49,8 +56,9 @@ export default function LoginComponent() {
   })
 
   const onSubmit = async (data: z.infer<typeof loginSchema>) => {
+    setIsLoading(() => true)
     const loginResponse = await fetchWrapper<AuthenticationResponse>(
-      "/authentication/login",
+      "/api/login",
       {
         method: "POST",
         body: JSON.stringify({ ...data }),
@@ -58,23 +66,21 @@ export default function LoginComponent() {
     )
 
     if (loginResponse.status !== 200) {
-      if ("message" in loginResponse.result) {
-        toast({
-          title: "Something went wrong on the login",
-          description: loginResponse.result.message,
-          variant: "destructive",
-        })
-      } else {
-        toast({
-          title: "Something went wrong on the login",
-          description: "An unknown error happened. Please try again later",
-          variant: "destructive",
-        })
-      }
+      const errorMessage = loginResponse.result.message as string
+      toast({
+        title: "Something went wrong on the login",
+        description:
+          errorMessage && errorMessage != ""
+            ? errorMessage
+            : "An unknown error happened. Please try again later",
+        variant: "destructive",
+      })
+
+      setIsLoading(() => false)
       return
     }
 
-    console.log(loginResponse)
+    window.location.reload()
   }
 
   return (
@@ -110,14 +116,17 @@ export default function LoginComponent() {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input placeholder="*******" {...field} />
+                    <Input placeholder="*******" type="password" {...field} />
                   </FormControl>
                   <FormDescription>Your account password</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button type="submit">Submit</Button>
+            <Button type="submit" disabled={isLoading}>
+              {isLoading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
+              Submit
+            </Button>
           </form>
         </Form>
       </CardContent>
