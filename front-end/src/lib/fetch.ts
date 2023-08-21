@@ -1,9 +1,5 @@
-interface ErroResponse {
-    message: string
-}
-
 export const fetchWrapper = async <T = unknown>(input: RequestInfo | URL, init?: RequestInit | undefined) => {
-    const data = await fetch(`http://localhost:3333${input}`, {
+    const data = await fetch(`${input}`, {
         headers: {
             "Content-Type": "application/json",
         },
@@ -11,5 +7,18 @@ export const fetchWrapper = async <T = unknown>(input: RequestInfo | URL, init?:
     })
     const result = await data.json()
 
-    return { status: data.status, result } as { status: number, result: T | ErroResponse }
+    return { status: data.status, result } as { status: number, result: T }
+}
+
+export const serverFetchWrapper = async <T = unknown>(input: RequestInfo | URL, init?: RequestInit | undefined) => {
+    const data = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}${input}`, {
+        headers: {
+            "Content-Type": "application/json",
+        },
+        ...init
+    })
+
+    const result = await data.json()
+
+    return { status: data.status, result } as { status: number, result: T }
 }
