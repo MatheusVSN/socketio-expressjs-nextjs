@@ -93,7 +93,7 @@ export default function SignupComponent() {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input placeholder="********" {...field} />
+                    <Input placeholder="********" type="password" {...field} />
                   </FormControl>
                   <FormDescription>Your account password</FormDescription>
                   <FormMessage />
@@ -108,7 +108,7 @@ export default function SignupComponent() {
                 <FormItem>
                   <FormLabel>Confirm password</FormLabel>
                   <FormControl>
-                    <Input placeholder="********" {...field} />
+                    <Input placeholder="********" type="password" {...field} />
                   </FormControl>
                   <FormDescription>Confirm your password</FormDescription>
                   <FormMessage />
