@@ -18,10 +18,8 @@ export const configureSocket = (io: Server) => {
     })
 
     io.use((socket, next) => {
-        console.log("attempt to connect?")
-        const authorization = socket.handshake.headers.authorization
-        console.log(authorization)
-
+        // For some reason postman doesn't have the auth object, so I'll use from headers if i'm doing a connection from postman
+        const authorization = socket.handshake.auth.authorization || socket.handshake.headers.authorization
         if (!authorization) next(new Error("Unauthorized"))
 
         try {
@@ -29,6 +27,7 @@ export const configureSocket = (io: Server) => {
         } catch (exception: any) {
             next(new Error("Authentication error"))
         }
+
         next()
     })
 }

@@ -12,7 +12,10 @@ const getAllMessages = async () => {
     "/chat/messages",
     {
       method: "GET",
-    }
+      headers: {
+        "Content-Type": "application/json"
+      }
+    },
   )
 
   // TODO: Error handling?

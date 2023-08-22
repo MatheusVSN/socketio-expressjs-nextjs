@@ -7,7 +7,10 @@ import { useRouter } from "next/navigation"
 
 const loadUserInformation = async () => {
     const profileResponse = await fetchWrapper<{ data: Profile }>("/api/profile", {
-        method: "GET"
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
     })
 
     if (profileResponse.status !== 200) return

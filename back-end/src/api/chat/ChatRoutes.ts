@@ -35,9 +35,10 @@ router.post("/message", isAuthenticated, async (request: Request, response: Resp
         const createdMessage = await createNewMessage(user, message)
         const ioInstance = getSocketInstance()
 
-        ioInstance?.emit("message", createdMessage)
+        ioInstance?.emit("message created", createdMessage)
         return response.json(createdMessage)
     } catch (exception: any) {
+        console.log(exception)
         if (exception instanceof z.ZodError) {
             const firstError = exception.errors[0]
             return response.status(400).json(firstError)

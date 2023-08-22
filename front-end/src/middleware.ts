@@ -15,7 +15,8 @@ const validateToken = async (request: NextRequest) => {
     const userResponse = await serverFetchWrapper("/user/profile", {
         method: "GET",
         headers: {
-            "Authorization": `Bearer ${acessToken}`
+            "Authorization": `Bearer ${acessToken}`,
+            "Content-Type": "application/json"
         }
     })
 
@@ -24,7 +25,10 @@ const validateToken = async (request: NextRequest) => {
             method: "POST",
             body: JSON.stringify({
                 refreshToken
-            })
+            }),
+            headers: {
+                "Content-Type": "application/json"
+            }
         })
 
         if (refreshTokenResponse.status !== 200) {

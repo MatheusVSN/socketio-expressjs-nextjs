@@ -21,10 +21,23 @@ import {
 } from "./ui/form"
 import { Input } from "./ui/input"
 import { Button } from "./ui/button"
+import { useState } from "react"
+import { Loader2 } from "lucide-react"
+import { fetchWrapper } from "@/lib/fetch"
+import { AuthenticationResponse } from "@/types"
+import { useToast } from "./ui/use-toast"
 
 const username = z.string().min(3, {
   message: "Username must be at least 3 characters long",
 })
+
+const email = z
+  .string({
+    required_error: "Email is required",
+  })
+  .email({
+    message: "You must insert a proper email",
+  })
 
 const password = z
   .object({
@@ -38,14 +51,18 @@ const password = z
     path: ["confirmPassword"],
   })
 
-const loginSchema = z.object({
+const SignUpSchema = z.object({
+  email,
   username,
   password,
 })
 
 export default function SignupComponent() {
-  const form = useForm<z.infer<typeof loginSchema>>({
-    resolver: zodResolver(loginSchema),
+  const { toast } = useToast()
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+
+  const form = useForm<z.infer<typeof SignUpSchema>>({
+    resolver: zodResolver(SignUpSchema),
     defaultValues: {
       username: "",
       password: {
@@ -55,8 +72,37 @@ export default function SignupComponent() {
     },
   })
 
-  const onSubmit = (data: z.infer<typeof loginSchema>) => {
+  const onSubmit = async (data: z.infer<typeof SignUpSchema>) => {
+    setIsLoading(() => true)
     console.log(data)
+    const signUpResponse = await fetchWrapper<AuthenticationResponse>(
+      "/api/signup",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          username: data.username,
+          email: data.email,
+          password: data.password.password,
+        }),
+      }
+    )
+
+    if (signUpResponse.status !== 201) {
+      const errorMessage = signUpResponse.result.message as string
+      toast({
+        title: "Something went wrong on the login",
+        description:
+          errorMessage && errorMessage != ""
+            ? errorMessage
+            : "An unknown error happened. Please try again later",
+        variant: "destructive",
+      })
+
+      setIsLoading(() => false)
+      return
+    }
+
+    window.location.reload()
   }
 
   return (
@@ -71,6 +117,21 @@ export default function SignupComponent() {
       <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input placeholder="email@example.com" {...field} />
+                  </FormControl>
+                  <FormDescription>Your account email</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             <FormField
               control={form.control}
               name="username"
@@ -115,7 +176,10 @@ export default function SignupComponent() {
                 </FormItem>
               )}
             />
-            <Button type="submit">Submit</Button>
+            <Button type="submit">
+              {isLoading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
+              Submit
+            </Button>
           </form>
         </Form>
       </CardContent>

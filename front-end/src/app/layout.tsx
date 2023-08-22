@@ -22,7 +22,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <NavigationBarComponent />
-          {children}
+          <div className="pt-14">{children}</div>
           <Toaster />
         </ThemeProvider>
       </body>

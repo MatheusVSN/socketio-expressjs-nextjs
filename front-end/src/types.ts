@@ -10,6 +10,7 @@ export interface Message {
     message: string
     createdAt: string
     updatedAt: String
+    user: User
 }
 
 export type MessagesListResponse = Message[]

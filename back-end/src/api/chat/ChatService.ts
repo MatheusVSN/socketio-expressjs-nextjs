@@ -18,13 +18,12 @@ export const getAllMessages = async () => {
             user: true
         },
         orderBy: {
-            createdAt: "desc"
+            createdAt: "asc"
         },
     })
 
     const finalMessageList = allMessages.map((message) => messageModelTODTO(message))
 
-    console.log("final", finalMessageList)
     return finalMessageList
 }
 

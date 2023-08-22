@@ -17,7 +17,7 @@ export default function NavigationBarComponent() {
   const { user, loading, logOut } = useCurrentUser()
 
   return (
-    <header className="supports-backdrop-blur:bg-slate-50/60 sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur">
+    <header className="supports-backdrop-blur:bg-slate-50/60 fixed top-0 z-50 w-full border-b bg-background/95 backdrop-blur">
       <nav className="container flex h-14 items-center">
         <div className="ml-auto flex items-center gap-4">
           <ThemeToggle />

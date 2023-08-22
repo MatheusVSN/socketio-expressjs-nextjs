@@ -1,7 +1,7 @@
-import { z } from "zod"
-import { NextResponse, NextRequest } from "next/server"
-import { serverFetchWrapper } from "../../../lib/fetch"
-import { AuthenticationResponse } from "../../../types"
+import { serverFetchWrapper } from "@/lib/fetch";
+import { AuthenticationResponse } from "@/types";
+import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
 
 const username = z.string().min(3, {
     message: "Username must be at least 3 characters long",
@@ -11,22 +11,22 @@ const password = z.string().min(8, {
     message: "Password must be at least 8 characters long",
 })
 
-const loginSchema = z.object({
+const SignUpSchema = z.object({
     username,
     password,
 })
 
-
 export const POST = async (request: NextRequest) => {
     try {
         const requestBody = await request.json()
-        await loginSchema.parseAsync(requestBody)
+        await SignUpSchema.parseAsync(requestBody)
 
-        const { username, password } = requestBody
+        const { email, username, password } = requestBody
 
-        const backendResponse = await serverFetchWrapper<AuthenticationResponse>(`/authentication/login`, {
+        const backendResponse = await serverFetchWrapper<AuthenticationResponse>("/authentication/register", {
             method: "POST",
             body: JSON.stringify({
+                email,
                 username,
                 password
             }),
@@ -41,13 +41,11 @@ export const POST = async (request: NextRequest) => {
             } else {
                 throw new Error("An unknown error happened. Please try again later")
             }
-
-            return
         }
 
         const { acessToken, refreshToken } = backendResponse.result as AuthenticationResponse
 
-        const response = NextResponse.json({ message: "Succes" }, { status: 200 })
+        const response = NextResponse.json({ message: "Account created" }, { status: 201 })
 
         response.cookies.set({
             name: "acessToken",
