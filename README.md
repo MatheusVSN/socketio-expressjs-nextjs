@@ -2,6 +2,12 @@
 
 This project is a simple chat application using Next.js and Express.js. The main purpose of the application is to experiment with Socket.io connections. It also contains JWT authentication by the Express.js side handled with cookies by Next.js.
 
+## Technologies used
+![Express.js](https://img.shields.io/badge/Express-000000.svg?style=for-the-badge&logo=Express&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-4479A1.svg?style=for-the-badge&logo=MySQL&logoColor=white)
+![Socket.io](https://img.shields.io/badge/Socket.io-010101.svg?style=for-the-badge&logo=socketdotio&logoColor=white)
+![Next.js](https://img.shields.io/badge/Next.js-000000.svg?style=for-the-badge&logo=nextdotjs&logoColor=white)
+
 ## Requirements
 
 - [Node.js](https://nodejs.org/en)
