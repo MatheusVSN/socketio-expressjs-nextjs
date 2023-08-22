@@ -19,7 +19,6 @@ export default function MessagesComponent({
   const [currentMessages, setCurrentMessages] = useState(messagesList)
 
   useEffect(() => {
-    // ws://localhost:3333
     const socket = io(SOCKET_URL, {
       transports: ["websocket"],
       auth: {
