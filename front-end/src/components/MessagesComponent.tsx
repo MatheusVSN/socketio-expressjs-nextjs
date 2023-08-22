@@ -19,7 +19,8 @@ export default function MessagesComponent({
   const [currentMessages, setCurrentMessages] = useState(messagesList)
 
   useEffect(() => {
-    const socket = io("ws://localhost:3333", {
+    // ws://localhost:3333
+    const socket = io(SOCKET_URL, {
       transports: ["websocket"],
       auth: {
         authorization: acessToken,
@@ -27,9 +28,9 @@ export default function MessagesComponent({
     })
 
     socket.on("message created", (newMessage: Message) => {
-     setCurrentMessages((previousMessages) => {
-      return [...previousMessages, newMessage]
-     })
+      setCurrentMessages((previousMessages) => {
+        return [...previousMessages, newMessage]
+      })
     })
 
     return () => {
