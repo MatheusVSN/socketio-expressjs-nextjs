@@ -1,4 +1,4 @@
-# Next.js/Express.js chat application
+# Next.js/Express.js with Socket IO chat application
 
 This project is a simple chat application using Next.js and Express.js. The main purpose of the application is to experiment with Socket.io connections. It also contains JWT authentication by the Express.js side handled with cookies by Next.js.
 
