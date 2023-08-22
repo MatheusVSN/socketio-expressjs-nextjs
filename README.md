@@ -45,12 +45,12 @@ This project is a simple chat application using Next.js and Express.js. The main
 
 ## Setting up the front-end
 
-- Navigate with your teminal into the `front-end`folder
+- Navigate with your terminal into the `front-end` folder
 - Execute `npm install` to install all dependencies
 - Create a file named `.env.local` into the root of the folder
 - Into the `.env.local` file, paste and modify the code below:
   ```bash
-  # Modify this accordinly to your back-end url(without "/")
+  # Modify this according to your back-end URL
   NEXT_PUBLIC_BACKEND_URL=http://localhost:3333
   ```
 - Execute the folder with `npm run dev`
